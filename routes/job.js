@@ -74,4 +74,9 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+router.get("/", async (req, res) => {
+    const jobs = await Job.find();
+    return res.status(200).json(jobs);
+});
+
 module.exports = router;
