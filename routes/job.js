@@ -74,8 +74,12 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.get("/", async (req, res) => {
-    const jobs = await Job.find();
+router.get("/", async (req, res) => {   // query params 
+    let jobs = [];
+    const query = req.query.search || "";
+    const offset = req.query.offset || 0;
+    const limit = req.query.limit || 2;
+    jobs = await Job.find({ title: { $regex: query, $options: "i" } }).sort({ createdAt: -1 }).skip(offset).limit(limit);
     return res.status(200).json(jobs);
 });
 
